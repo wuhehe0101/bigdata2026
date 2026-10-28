@@ -1,0 +1,74 @@
+[
+  {
+    "path": "(4)冰川数据/Glacier topographic and dynamic drivers (Glacier-collapse and debris-flow disasters at Langtang Lirung, Nepal).nc",
+    "sha256": "0a57192a65557f052dbc0bfbca71687ad1d158d4edaa363f26b3d65f337f32c8"
+  },
+  {
+    "path": "GIS成果/dhdt_2015_2020_mosaic.tif",
+    "sha256": "ca1e9759d134395a2bbc1e4899993dbef66a1eb8d5425ad942745b1fde51f7f2"
+  },
+  {
+    "path": "data/MET_Gyirong_2021.csv",
+    "sha256": "443b42a6602578fa11ad3988db3a622dbcb63c9f1ba21c13adf93bc5d5361cac"
+  },
+  {
+    "path": "data/MET_Gyirong_2022.csv",
+    "sha256": "d7a2cd91e783e80077f42aa37d22fc3cc843664c0f80f52f22d3b3e585c76824"
+  },
+  {
+    "path": "data/MET_Gyirong_2023.csv",
+    "sha256": "5334911d95397d876b45e7b469cc460e12e19f6bff674683a40b669a08c6a06f"
+  },
+  {
+    "path": "data/MET_Gyirong_2024.csv",
+    "sha256": "86ff4b2fdf7b3390664621ab8a5b18b707756cdc7219d5d769a1f27b48f92101"
+  },
+  {
+    "path": "data/MET_Gyirong_2025.csv",
+    "sha256": "6e252e33ec1674547e82c7d60d352bcbf354e74972be100d1a0d945264249854"
+  },
+  {
+    "path": "data/MET_Gyirong_2026.csv",
+    "sha256": "66f9ce15d43d0e2403905136e9997ea4458cd87d9390891ec3f9ea5af0eeae53"
+  },
+  {
+    "path": "吉隆县历史灾害_干净版.csv",
+    "sha256": "408c941a31bd66e7ebc8c62724e8b0a8859c8ab95584058fce31391a1908c775"
+  },
+  {
+    "path": "（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)/西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集/RGI_V7_JilongFlood_Buffer_200km.cpg",
+    "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+  },
+  {
+    "path": "（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)/西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集/RGI_V7_JilongFlood_Buffer_200km.dbf",
+    "sha256": "8c734113fff29f6426ad19d2dafd76ce136f419f86d89108298eb698bb986255"
+  },
+  {
+    "path": "（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)/西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集/RGI_V7_JilongFlood_Buffer_200km.prj",
+    "sha256": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"
+  },
+  {
+    "path": "（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)/西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集/RGI_V7_JilongFlood_Buffer_200km.shp",
+    "sha256": "8b2776c226e7a9784df4d577f964cd14906cb2a439c698dddb29f964d3537eae"
+  },
+  {
+    "path": "（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)/西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集/RGI_V7_JilongFlood_Buffer_200km.shx",
+    "sha256": "2e0db27e1ce614316007ed724e85b83bf49fd74588ef94f952e38d23766e9cc9"
+  },
+  {
+    "path": "（6）西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据.dbf",
+    "sha256": "c521cde04df6819e18b241a08655cefcfa7166e4a72e76051ae0d267f138ce66"
+  },
+  {
+    "path": "（6）西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据.prj",
+    "sha256": "b10dbe4d6d1de908d340f892c90b3d31a552630af3742bb515bfe1bd26124f2c"
+  },
+  {
+    "path": "（6）西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据.shp",
+    "sha256": "c5c6264c71452109ee74abddcd0774ece904592a511f04ab55ae72afbf7524ea"
+  },
+  {
+    "path": "（6）西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据/西藏日喀则市吉隆县泥石流灾害区历史灾点数据.shx",
+    "sha256": "d0e2a08e6eb116a8f721a017a6f9f019136e9324ed3c1900bfc022e5075653c8"
+  }
+]

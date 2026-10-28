@@ -1,0 +1,376 @@
+{
+  "training_threshold_stability": {
+    "replicates": 199,
+    "ice_interaction_zero_fraction": 0.7939698492462312,
+    "rain24_zero_fraction": 0.6381909547738693,
+    "A48_boundary_finite_count": 192,
+    "A48_boundary_percentiles": {
+      "0.025": 1.8444718486855676,
+      "0.5": 6.518194689070002,
+      "0.975": 3273.263088108929
+    }
+  },
+  "inventory_types": {
+    "降雨型": 41,
+    "冰水混合型": 25,
+    "冰雪融水型": 16,
+    "冰湖溃决型": 2
+  },
+  "gate_spatial_oof": {
+    "n": 84,
+    "positive": 43,
+    "auc": 0.6494611457742484,
+    "ap": 0.7147474839100256,
+    "prevalence": 0.5119047619047619,
+    "tn": 26,
+    "fp": 15,
+    "fn": 14,
+    "tp": 29,
+    "recall": 0.6744186046511628,
+    "precision": 0.6590909090909091,
+    "threshold": 0.5
+  },
+  "gate_folds": [
+    {
+      "fold": 0,
+      "n": 24,
+      "positive": 11,
+      "auc": 0.9300699300699301,
+      "ap": 0.9118010777101686,
+      "prevalence": 0.4583333333333333,
+      "tn": 11,
+      "fp": 2,
+      "fn": 0,
+      "tp": 11,
+      "recall": 1.0,
+      "precision": 0.8461538461538461,
+      "threshold": 0.5,
+      "test_blocks": [
+        "16_158"
+      ]
+    },
+    {
+      "fold": 1,
+      "n": 23,
+      "positive": 4,
+      "auc": 0.618421052631579,
+      "ap": 0.24722222222222218,
+      "prevalence": 0.17391304347826086,
+      "tn": 9,
+      "fp": 10,
+      "fn": 1,
+      "tp": 3,
+      "recall": 0.75,
+      "precision": 0.23076923076923078,
+      "threshold": 0.5,
+      "test_blocks": [
+        "16_159"
+      ]
+    },
+    {
+      "fold": 2,
+      "n": 19,
+      "positive": 14,
+      "auc": 0.8142857142857143,
+      "ap": 0.935091011929247,
+      "prevalence": 0.7368421052631579,
+      "tn": 2,
+      "fp": 3,
+      "fn": 3,
+      "tp": 11,
+      "recall": 0.7857142857142857,
+      "precision": 0.7857142857142857,
+      "threshold": 0.5,
+      "test_blocks": [
+        "15_159",
+        "15_160",
+        "16_157",
+        "17_157"
+      ]
+    },
+    {
+      "fold": 3,
+      "n": 18,
+      "positive": 14,
+      "auc": 0.6607142857142857,
+      "ap": 0.9025614091790561,
+      "prevalence": 0.7777777777777778,
+      "tn": 4,
+      "fp": 0,
+      "fn": 10,
+      "tp": 4,
+      "recall": 0.2857142857142857,
+      "precision": 1.0,
+      "threshold": 0.5,
+      "test_blocks": [
+        "16_156",
+        "16_160",
+        "17_158",
+        "17_159",
+        "17_160"
+      ]
+    }
+  ],
+  "events_by_year": {
+    "2018": 1,
+    "2019": 1,
+    "2021": 32
+  },
+  "unique_days_2021": 17,
+  "missing_event_days": [
+    "2021-04-20"
+  ],
+  "panel_sites": 32,
+  "train_days": 93,
+  "train_event_days": 9,
+  "test_days": 58,
+  "test_event_days": 6,
+  "results": {
+    "plain_logistic": {
+      "regional_daily": {
+        "n": 58,
+        "positive": 6,
+        "auc": 0.6474358974358975,
+        "ap": 0.21166968599033817,
+        "prevalence": 0.10344827586206896,
+        "tn": 29,
+        "fp": 23,
+        "fn": 2,
+        "tp": 4,
+        "recall": 0.6666666666666666,
+        "precision": 0.14814814814814814,
+        "threshold": 0.5157329909650147
+      },
+      "site_day": {
+        "n": 1856,
+        "positive": 18,
+        "auc": 0.5870511425462459,
+        "ap": 0.02082955917874396,
+        "prevalence": 0.009698275862068966,
+        "tn": 984,
+        "fp": 854,
+        "fn": 8,
+        "tp": 10,
+        "recall": 0.5555555555555556,
+        "precision": 0.011574074074074073,
+        "threshold": 0.5157329909650147
+      }
+    },
+    "gated_logistic": {
+      "regional_daily": {
+        "n": 58,
+        "positive": 6,
+        "auc": 0.6346153846153846,
+        "ap": 0.20129102575911084,
+        "prevalence": 0.10344827586206896,
+        "tn": 29,
+        "fp": 23,
+        "fn": 2,
+        "tp": 4,
+        "recall": 0.6666666666666666,
+        "precision": 0.14814814814814814,
+        "threshold": 0.5748975255075962
+      },
+      "site_day": {
+        "n": 1856,
+        "positive": 18,
+        "auc": 0.5408959013420385,
+        "ap": 0.014964209446237565,
+        "prevalence": 0.009698275862068966,
+        "tn": 1517,
+        "fp": 321,
+        "fn": 11,
+        "tp": 7,
+        "recall": 0.3888888888888889,
+        "precision": 0.021341463414634148,
+        "threshold": 0.5748975255075962
+      }
+    },
+    "monotone_logistic": {
+      "regional_daily": {
+        "n": 58,
+        "positive": 6,
+        "auc": 0.6378205128205128,
+        "ap": 0.19496364535084812,
+        "prevalence": 0.10344827586206896,
+        "tn": 27,
+        "fp": 25,
+        "fn": 2,
+        "tp": 4,
+        "recall": 0.6666666666666666,
+        "precision": 0.13793103448275862,
+        "threshold": 0.5107356111264578
+      },
+      "site_day": {
+        "n": 1856,
+        "positive": 18,
+        "auc": 0.5686736791198163,
+        "ap": 0.018053476486217933,
+        "prevalence": 0.009698275862068966,
+        "tn": 920,
+        "fp": 918,
+        "fn": 8,
+        "tp": 10,
+        "recall": 0.5555555555555556,
+        "precision": 0.010775862068965518,
+        "threshold": 0.5107356111264578
+      }
+    },
+    "shallow_tree": {
+      "regional_daily": {
+        "n": 58,
+        "positive": 6,
+        "auc": 0.6858974358974359,
+        "ap": 0.16091954022988508,
+        "prevalence": 0.10344827586206896,
+        "tn": 28,
+        "fp": 24,
+        "fn": 1,
+        "tp": 5,
+        "recall": 0.8333333333333334,
+        "precision": 0.1724137931034483,
+        "threshold": 0.7300887807095007
+      },
+      "site_day": {
+        "n": 1856,
+        "positive": 18,
+        "auc": 0.5781042195623262,
+        "ap": 0.011777489391504966,
+        "prevalence": 0.009698275862068966,
+        "tn": 1104,
+        "fp": 734,
+        "fn": 8,
+        "tp": 10,
+        "recall": 0.5555555555555556,
+        "precision": 0.013440860215053764,
+        "threshold": 0.7300887807095007
+      }
+    },
+    "block_bootstrap": {
+      "valid_replicates": 1000,
+      "requested": 1000,
+      "auc_95_percentile": [
+        0.36549426450742245,
+        0.8345390570021112
+      ]
+    }
+  },
+  "space_time_holdouts": [
+    {
+      "held_block": "14_158",
+      "n": 58,
+      "positive": 3,
+      "auc": 0.6787878787878787,
+      "ap": 0.20646178092986603,
+      "prevalence": 0.05172413793103448,
+      "tn": 28,
+      "fp": 27,
+      "fn": 1,
+      "tp": 2,
+      "recall": 0.6666666666666666,
+      "precision": 0.06896551724137931,
+      "threshold": 0.5040142177258871,
+      "train_sites": 28,
+      "test_sites": 4,
+      "removed_inventory": 0
+    },
+    {
+      "held_block": "14_159",
+      "n": 58,
+      "positive": 4,
+      "auc": 0.4814814814814815,
+      "ap": 0.07865074732839127,
+      "prevalence": 0.06896551724137931,
+      "tn": 27,
+      "fp": 27,
+      "fn": 2,
+      "tp": 2,
+      "recall": 0.5,
+      "precision": 0.06896551724137931,
+      "threshold": 0.5107356130133096,
+      "train_sites": 28,
+      "test_sites": 4,
+      "removed_inventory": 0
+    },
+    {
+      "held_block": "16_156",
+      "n": 58,
+      "positive": 2,
+      "auc": 0.9196428571428571,
+      "ap": 0.2777777777777778,
+      "prevalence": 0.034482758620689655,
+      "tn": 29,
+      "fp": 27,
+      "fn": 0,
+      "tp": 2,
+      "recall": 1.0,
+      "precision": 0.06896551724137931,
+      "threshold": 0.49933095602047334,
+      "train_sites": 28,
+      "test_sites": 4,
+      "removed_inventory": 5
+    },
+    {
+      "held_block": "16_158",
+      "n": 58,
+      "positive": 2,
+      "auc": 0.7232142857142857,
+      "ap": 0.09555555555555556,
+      "prevalence": 0.034482758620689655,
+      "tn": 29,
+      "fp": 27,
+      "fn": 0,
+      "tp": 2,
+      "recall": 1.0,
+      "precision": 0.06896551724137931,
+      "threshold": 0.4966021631473629,
+      "train_sites": 27,
+      "test_sites": 5,
+      "removed_inventory": 24
+    },
+    {
+      "held_block": "16_159",
+      "n": 58,
+      "positive": 4,
+      "auc": 0.6018518518518519,
+      "ap": 0.10009235578289286,
+      "prevalence": 0.06896551724137931,
+      "tn": 34,
+      "fp": 20,
+      "fn": 1,
+      "tp": 3,
+      "recall": 0.75,
+      "precision": 0.13043478260869565,
+      "threshold": 0.5538708482274403,
+      "train_sites": 21,
+      "test_sites": 11,
+      "removed_inventory": 23
+    }
+  ],
+  "raw_intercept": -3.1781482595884922,
+  "raw_coefficients": {
+    "logP24": 0.0,
+    "logA48": 0.365097372409014,
+    "D72": 0.08478684564060743,
+    "gD72": 0.0
+  },
+  "threshold": 0.5107356111264578,
+  "glacier_diagnostics": {
+    "thickness": {
+      "max": 154.0,
+      "unit": "m"
+    },
+    "v": {
+      "max": 55.828922271728516,
+      "unit": "meter/year"
+    },
+    "slope": {
+      "max": 78.50704193115234,
+      "unit": "degree"
+    },
+    "scope": "One glacier only; no universal collapse threshold or volume/energy inferred."
+  },
+  "thin_missing_inventory": 0,
+  "thin_missing_sites": 0,
+  "validation_assertions": "past-only features, embargo, disjoint dates, effective date weights, model serialization passed"
+}
