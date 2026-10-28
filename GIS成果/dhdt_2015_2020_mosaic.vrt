@@ -1,0 +1,120 @@
+<VRTDataset rasterXSize="3949" rasterYSize="3953">
+  <SRS dataAxisToSRSAxisMapping="1,2">PROJCS["WGS 84 / UTM zone 45N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",87],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32645"]]</SRS>
+  <GeoTransform>  2.0465000000000000e+05,  1.0000000000000000e+02,  0.0000000000000000e+00,  3.4320500000000000e+06,  0.0000000000000000e+00, -1.0000000000000000e+02</GeoTransform>
+  <VRTRasterBand dataType="Float32" band="1">
+    <NoDataValue>-9999</NoDataValue>
+    <ColorInterp>Gray</ColorInterp>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N27E086_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="998" RasterYSize="510" DataType="Float32" BlockXSize="998" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="998" ySize="510" />
+      <DstRect xOff="1958" yOff="3342" xSize="998" ySize="510" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N27E087_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="999" RasterYSize="611" DataType="Float32" BlockXSize="999" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="999" ySize="611" />
+      <DstRect xOff="2950" yOff="3342" xSize="999" ySize="611" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N28E084_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="1008" RasterYSize="865" DataType="Float32" BlockXSize="1008" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="1008" ySize="865" />
+      <DstRect xOff="0" yOff="2202" xSize="1008" ySize="865" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N28E085_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="998" RasterYSize="1126" DataType="Float32" BlockXSize="998" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="998" ySize="1126" />
+      <DstRect xOff="984" yOff="2222" xSize="998" ySize="1126" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N28E086_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="989" RasterYSize="1117" DataType="Float32" BlockXSize="989" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="989" ySize="1117" />
+      <DstRect xOff="1967" yOff="2235" xSize="989" ySize="1117" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N28E087_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="990" RasterYSize="1117" DataType="Float32" BlockXSize="990" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="990" ySize="1117" />
+      <DstRect xOff="2950" yOff="2235" xSize="990" ySize="1117" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N29E084_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="999" RasterYSize="1135" DataType="Float32" BlockXSize="999" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="999" ySize="1135" />
+      <DstRect xOff="28" yOff="1093" xSize="999" ySize="1135" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N29E085_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="990" RasterYSize="1127" DataType="Float32" BlockXSize="990" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="990" ySize="1127" />
+      <DstRect xOff="1002" yOff="1114" xSize="990" ySize="1127" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N29E086_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="980" RasterYSize="1119" DataType="Float32" BlockXSize="980" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="980" ySize="1119" />
+      <DstRect xOff="1976" yOff="1126" xSize="980" ySize="1119" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N29E087_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="981" RasterYSize="1119" DataType="Float32" BlockXSize="981" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="981" ySize="1119" />
+      <DstRect xOff="2950" yOff="1126" xSize="981" ySize="1119" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N30E084_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="991" RasterYSize="1120" DataType="Float32" BlockXSize="991" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="991" ySize="1120" />
+      <DstRect xOff="56" yOff="0" xSize="991" ySize="1120" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N30E085_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="954" RasterYSize="456" DataType="Float32" BlockXSize="954" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="954" ySize="456" />
+      <DstRect xOff="1021" yOff="676" xSize="954" ySize="456" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N30E086_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="904" RasterYSize="908" DataType="Float32" BlockXSize="904" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="904" ySize="908" />
+      <DstRect xOff="2052" yOff="229" xSize="904" ySize="908" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+    <ComplexSource>
+      <SourceFilename relativeToVRT="0">D:\mju\2026-1\学习\竞赛\大数据挑战\2026年MathorCup大数据挑战赛-赛道B初赛\附件\（3）日喀则市吉隆县特大洪水——200km周围内的冰川及冰川表面高程变化数据集 (2000-2020)\西藏日喀则市吉隆县特大洪水—200km周围内的冰川和冰川厚度变化数据集\13_14_15_rgi60_2015-01-01_2020-01-01\dhdt_UTM\N30E087_2015-01-01_2020-01-01_dhdt_UTM45_UTM45.tif</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="971" RasterYSize="535" DataType="Float32" BlockXSize="971" BlockYSize="2" />
+      <SrcRect xOff="0" yOff="0" xSize="971" ySize="535" />
+      <DstRect xOff="2950" yOff="602" xSize="971" ySize="535" />
+      <NODATA>-9999</NODATA>
+    </ComplexSource>
+  </VRTRasterBand>
+</VRTDataset>
