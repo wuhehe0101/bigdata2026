@@ -1,0 +1,322 @@
+# -*- coding: utf-8 -*-
+"""文献约束的吉隆8·26浅层流动情景模型（不是已经标定的灾害链复现）。
+
+二维深度平均Saint-Venant守恒方程、静水重构+Rusanov有限体积、
+Coulomb–Voellmy速度衰减；可选经验侵蚀/沉积源汇。真实米制坐标EPSG:32645。
+重要限制：不含三维崩塌/弹道飞跃、冰-岩-水相变、孔隙压力、局部冲击冲蚀机制。
+"""
+from __future__ import annotations
+from dataclasses import dataclass, asdict
+from pathlib import Path
+from typing import Callable
+import math
+import numpy as np
+import rasterio
+from rasterio.windows import from_bounds, Window
+from rasterio.enums import Resampling
+from affine import Affine
+from numba import njit
+
+G=9.81
+PAPER_REFERENCE=(357868.3876980806,3135259.0075335917)  # 85°33′0″, 28°20′9″
+OLD_A=(355000.0,3130500.0)
+PORT=(340897.896,3129236.913)
+INCIDENT=(340873.071,3129127.391)
+OBSERVATIONS={
+  '体积_m3':1.1e8, '初始冰体比例下限':0.10, '初始冰体比例上限':0.15,
+  '文献描述源区海拔_m':5200.0, '文献描述源区长度_m':1000.,
+  '文献描述源区宽度_m':600., '文献平均厚度_m':190.,
+  '文献沿程运动距离_m':23000., '文献到口岸时间_约s':461.,
+  '文献口岸平均速度_mps':22., '文献撞击峰值速度_mps':67.6,
+  '文献两段河谷侵蚀体积_m3':5.86e7,
+}
+
+@dataclass(frozen=True)
+class Config:
+    # PDF location is a seismic inversion location, NOT a delineated release polygon
+    source_x:float=PAPER_REFERENCE[0]
+    source_y:float=PAPER_REFERENCE[1]
+    source_length_m:float=1000.
+    source_width_m:float=600.
+    source_bearing_deg:float=110.  # E20S, assumption for footprint orientation
+    initial_volume_m3:float=1.1e8
+    duration_s:float=600.
+    grid_m:float=90.
+    mu:float=0.20
+    xi_mps2:float=500.
+    # Optional, non-validated empirical entrainment/deposition model
+    erosion_k:float=0.0          # dimensionless rate multiplier, NOT measured
+    erosion_speed_threshold_mps:float=15.
+    erodible_depth_m:float=25.  # maximum erodible bed thickness, assumed
+    deposit_k_per_s:float=0.0
+    deposit_speed_threshold_mps:float=5.
+    fluidization_after_s:float=0. # if >0, switch basal mu to mu_late after this time
+    mu_late:float=0.10
+    snapshot_s:float=30.
+    wet_threshold_m:float=0.50  # impacts for robust mapping, not actual physical front criterion
+    cfl:float=0.25
+    margin_x_m:float=5000.
+    margin_y_m:float=5000.
+
+@dataclass
+class Terrain:
+    z0:np.ndarray
+    valid:np.ndarray
+    x:np.ndarray
+    y:np.ndarray
+    dx:float
+    dy:float
+    transform:Affine
+    slope_cos:np.ndarray
+
+
+def load_terrain(dem_file: str | Path, cfg:Config)->Terrain:
+    if cfg.grid_m < 45:
+        raise ValueError('此版本未验证30米网格在高位巨量源区下的稳定性；最小45米')
+    targets=[(cfg.source_x,cfg.source_y),PORT,INCIDENT]
+    left=min(x for x,y in targets)-cfg.margin_x_m
+    right=max(x for x,y in targets)+cfg.margin_x_m
+    bottom=min(y for x,y in targets)-cfg.margin_y_m
+    top=max(y for x,y in targets)+cfg.margin_y_m
+    with rasterio.open(dem_file) as ds:
+        if ds.crs is None or ds.crs.to_epsg()!=32645:
+            raise ValueError('必须使用EPSG:32645的UTM DEM，单位米')
+        left=max(left,ds.bounds.left);right=min(right,ds.bounds.right)
+        bottom=max(bottom,ds.bounds.bottom);top=min(top,ds.bounds.top)
+        if left>=right or bottom>=top:raise ValueError('DEM不覆盖源区至口岸')
+        win=from_bounds(left,bottom,right,top,ds.transform)
+        win=win.round_offsets().round_lengths().intersection(Window(0,0,ds.width,ds.height))
+        ncols=int(round(win.width*abs(ds.res[0])/cfg.grid_m))
+        nrows=int(round(win.height*abs(ds.res[1])/cfg.grid_m))
+        a=ds.read(1,window=win,out_shape=(nrows,ncols),resampling=Resampling.bilinear,masked=True)
+        transform=ds.window_transform(win)*Affine.scale(win.width/ncols,win.height/nrows)
+    valid=(~np.ma.getmaskarray(a)) & np.isfinite(a.filled(np.nan))
+    z0=np.asarray(a.filled(0),dtype=np.float64)
+    valid &= (z0 > 0) & (z0 < 10000)
+    z0[~valid]=0.
+    dx=float(abs(transform.a));dy=float(abs(transform.e))
+    x=transform.c+(np.arange(ncols)+.5)*dx
+    y=transform.f-(np.arange(nrows)+.5)*dy
+    from scipy.ndimage import gaussian_filter,distance_transform_edt
+    if not np.all(valid):
+        nearest=distance_transform_edt(~valid,return_distances=False,return_indices=True)
+        z_ext=z0[tuple(nearest)]
+    else:z_ext=z0
+    sm=gaussian_filter(z_ext,1.0)
+    gry,grx=np.gradient(sm,dy,dx)
+    slope_cos=1/np.sqrt(1+grx**2+gry**2)
+    slope_cos[~valid]=1.
+    if not (np.any((np.abs(x-cfg.source_x)<cfg.source_length_m)&(np.abs(y[:,None]-cfg.source_y)<cfg.source_width_m)&valid)):
+        raise ValueError('假设源区位于DEM无数据区域')
+    return Terrain(z0,valid,x,y,dx,dy,transform,slope_cos)
+
+
+def initial_state(terrain:Terrain,cfg:Config):
+    X,Y=np.meshgrid(terrain.x,terrain.y)
+    theta=np.deg2rad(cfg.source_bearing_deg)
+    # bearing measured clockwise from north; major axis points E20S
+    along=(X-cfg.source_x)*np.sin(theta)+(Y-cfg.source_y)*np.cos(theta)
+    across=(X-cfg.source_x)*np.cos(theta)-(Y-cfg.source_y)*np.sin(theta)
+    # rectangular mask mimics paper's approximate 1000m x600m footprint dimensions;
+    # no claim of actual boundary delineation
+    mask=(np.abs(along)<=cfg.source_length_m/2)&(np.abs(across)<=cfg.source_width_m/2)&terrain.valid
+    if mask.sum()<6:raise ValueError('释放区有效网格不足，需调整计算分辨率')
+    h=np.zeros_like(terrain.z0)
+    h[mask]=cfg.initial_volume_m3/(mask.sum()*terrain.dx*terrain.dy)
+    return h,np.zeros_like(h),np.zeros_like(h),mask
+
+@njit(cache=True)
+def _fv_step(h,qx,qy,z,valid,dx,dy,dt):
+    """Hydrostatic-reconstruction Rusanov in Cartesian coordinates.
+    Closed/impermeable at nodata cells; flagged if motion touches domain edge.
+    """
+    nr,nc=h.shape
+    dh=np.zeros_like(h);dqx=np.zeros_like(h);dqy=np.zeros_like(h)
+    g=9.81
+    for r in range(nr):
+      for c in range(nc-1):
+        if not(valid[r,c] and valid[r,c+1]):continue
+        a=h[r,c];b=h[r,c+1]
+        zstar=max(z[r,c],z[r,c+1])
+        aa=max(0.,z[r,c]+a-zstar);bb=max(0.,z[r,c+1]+b-zstar)
+        ua=qx[r,c]/a if a>1.e-9 else 0.
+        va=qy[r,c]/a if a>1.e-9 else 0.
+        ub=qx[r,c+1]/b if b>1.e-9 else 0.
+        vb=qy[r,c+1]/b if b>1.e-9 else 0.
+        qa=aa*ua;qb=bb*ub;pa=aa*va;pb=bb*vb
+        wave=max(abs(ua)+math.sqrt(g*aa),abs(ub)+math.sqrt(g*bb))
+        fm=.5*(qa+qb)-.5*wave*(bb-aa)
+        fx=.5*(qa*ua+.5*g*aa*aa+qb*ub+.5*g*bb*bb)-.5*wave*(qb-qa)
+        fy=.5*(pa*ua+pb*ub)-.5*wave*(pb-pa)
+        # hydrostatic corrections keep constant free-surface at rest
+        fx_l=fx+.5*g*(a*a-aa*aa)
+        fx_r=fx+.5*g*(b*b-bb*bb)
+        fac=dt/dx
+        dh[r,c]-=fac*fm;dh[r,c+1]+=fac*fm
+        dqx[r,c]-=fac*fx_l;dqx[r,c+1]+=fac*fx_r
+        dqy[r,c]-=fac*fy;dqy[r,c+1]+=fac*fy
+    for r in range(nr-1):
+      for c in range(nc):
+        if not(valid[r,c] and valid[r+1,c]):continue
+        a=h[r,c];b=h[r+1,c]
+        zstar=max(z[r,c],z[r+1,c])
+        aa=max(0.,z[r,c]+a-zstar);bb=max(0.,z[r+1,c]+b-zstar)
+        ua=qx[r,c]/a if a>1.e-9 else 0.
+        va=qy[r,c]/a if a>1.e-9 else 0.
+        ub=qx[r+1,c]/b if b>1.e-9 else 0.
+        vb=qy[r+1,c]/b if b>1.e-9 else 0.
+        qa=aa*ua;qb=bb*ub;pa=aa*va;pb=bb*vb
+        # positive normal points south, so qn = -qy
+        wave=max(abs(va)+math.sqrt(g*aa),abs(vb)+math.sqrt(g*bb))
+        fm=-.5*(pa+pb)-.5*wave*(bb-aa)
+        fx=-.5*(qa*va+qb*vb)-.5*wave*(qb-qa)
+        fy=-.5*(pa*va+.5*g*aa*aa+pb*vb+.5*g*bb*bb)-.5*wave*(pb-pa)
+        fy_l=fy-.5*g*(a*a-aa*aa)
+        fy_r=fy-.5*g*(b*b-bb*bb)
+        fac=dt/dy
+        dh[r,c]-=fac*fm;dh[r+1,c]+=fac*fm
+        dqx[r,c]-=fac*fx;dqx[r+1,c]+=fac*fx
+        dqy[r,c]-=fac*fy_l;dqy[r+1,c]+=fac*fy_r
+    # impermeable boundary faces need pressure flux to preserve lake at rest
+    for r in range(nr):
+      for c in range(nc):
+        if not valid[r,c]:continue
+        p=.5*g*h[r,c]*h[r,c]
+        if c==0 or not valid[r,c-1]: dqx[r,c]+=dt/dx*p
+        if c==nc-1 or not valid[r,c+1]: dqx[r,c]-=dt/dx*p
+        if r==0 or not valid[r-1,c]: dqy[r,c]-=dt/dy*p
+        if r==nr-1 or not valid[r+1,c]: dqy[r,c]+=dt/dy*p
+    return h+dh,qx+dqx,qy+dqy
+
+@njit(cache=True)
+def _friction(h,qx,qy,slopecos,mu,xi,dt):
+    for i in range(h.shape[0]):
+      for j in range(h.shape[1]):
+        a=h[i,j]
+        if a<=1e-8:
+            h[i,j]=0.;qx[i,j]=0.;qy[i,j]=0.;continue
+        if a<0.03:
+            qx[i,j]=0.;qy[i,j]=0.;continue
+        u=qx[i,j]/a;v=qy[i,j]/a
+        sp=math.sqrt(u*u+v*v)
+        if sp<1.e-10:continue
+        dec=(mu*G*slopecos[i,j]+G*sp*sp/(xi*max(a,.2)))*dt
+        scale=max(0.,1.-dec/sp)
+        qx[i,j]*=scale;qy[i,j]*=scale
+
+@njit(cache=True)
+def _morphology(h,qx,qy,z,eroded,deposited,valid,dx,dy,dt,erosion_k,speed_crit,depth_cap,
+                dep_k,dep_speed):
+    """Empirical entrainment/deposition, not an ice-rock mass exchange model.
+    E= k max(|u|-vcrit,0) [m/s]; D=dep_k*h if |u|<dep_speed.
+    z decreases when eroded and increases when deposited; momentum of newly
+    entrained material is assumed initially zero (dilution q/h).
+    """
+    for i in range(h.shape[0]):
+      for j in range(h.shape[1]):
+        if not valid[i,j]:continue
+        d=h[i,j]
+        if d<.20:continue
+        speed=math.sqrt(qx[i,j]**2+qy[i,j]**2)/max(d,1e-10)
+        if erosion_k>0 and speed>speed_crit:
+            e=min(depth_cap-eroded[i,j],dt*erosion_k*(speed-speed_crit)*min(1.,d/2.))
+            if e>0:
+                eroded[i,j]+=e;h[i,j]+=e;z[i,j]-=e
+        if dep_k>0 and speed<dep_speed and h[i,j]>0.:
+            dep=min(.35*h[i,j],dt*dep_k*h[i,j])
+            if dep>0:
+                old=h[i,j];h[i,j]-=dep;z[i,j]+=dep;deposited[i,j]+=dep
+                # deposition removes sediment and corresponding specific momentum
+                if old>1e-8:
+                    scale=h[i,j]/old;qx[i,j]*=scale;qy[i,j]*=scale
+
+def _time_step(h,qx,qy,dx,dy,cfl):
+    wet=h>1.e-8
+    if not np.any(wet):return 0.7
+    u=np.zeros_like(h);v=np.zeros_like(h)
+    np.divide(qx,h,out=u,where=wet)
+    np.divide(qy,h,out=v,where=wet)
+    wave=np.sqrt(G*np.maximum(h,0.))
+    invdt=(np.abs(u)+wave)/dx+(np.abs(v)+wave)/dy
+    return min(0.8,cfl/max(float(np.max(invdt)),1.e-9))
+
+
+def simulate(terrain:Terrain,cfg:Config,progress:Callable[[float],None]|None=None):
+    if not 0<=cfg.mu<1 or cfg.xi_mps2<=0 or cfg.initial_volume_m3<=0 or cfg.duration_s<=0:
+        raise ValueError('非法物理参数')
+    h,qx,qy,source_mask=initial_state(terrain,cfg)
+    z=terrain.z0.copy()
+    eroded=np.zeros_like(h);deposited=np.zeros_like(h)
+    hmax=h.copy();vmax=np.zeros_like(h)
+    ever=h>=cfg.wet_threshold_m
+    XX,YY=np.meshgrid(terrain.x,terrain.y)
+    dist_source=np.hypot(XX-cfg.source_x,YY-cfg.source_y)
+    port_mask=(XX-PORT[0])**2+(YY-PORT[1])**2<=300**2
+    incident_mask=(XX-INCIDENT[0])**2+(YY-INCIDENT[1])**2<=300**2
+    dt_snap=cfg.snapshot_s
+    records=[];frames=[];times=[]
+    volume0=float(np.sum(h)*terrain.dx*terrain.dy)
+    arrived_port=None;arrived_incident=None
+    def write_frame(t):
+        nonlocal arrived_port,arrived_incident
+        wet=h>=cfg.wet_threshold_m
+        ever[:]=np.logical_or(ever,wet)
+        volume=float(np.sum(h)*terrain.dx*terrain.dy)
+        E=float(np.sum(eroded)*terrain.dx*terrain.dy)
+        D=float(np.sum(deposited)*terrain.dx*terrain.dy)
+        balance=(volume+D-E-volume0)/volume0
+        u=np.divide(qx,h,out=np.zeros_like(qx),where=h>1.e-8)
+        v=np.divide(qy,h,out=np.zeros_like(qy),where=h>1.e-8)
+        speed=np.hypot(u,v)
+        if np.any(wet&port_mask) and arrived_port is None:arrived_port=float(t)
+        if np.any(wet&incident_mask) and arrived_incident is None:arrived_incident=float(t)
+        rec={'时间_s':round(float(t),3),'运动层体积_m3':volume,
+            '累计侵蚀体积_m3':E,'累计沉积体积_m3':D,
+            '物质量平衡相对误差':balance,
+            '累计影响面积_km2':float(ever.sum()*terrain.dx*terrain.dy/1e6),
+            '最大累计直线距离_km':float(dist_source[ever].max()/1000) if ever.any() else 0.,
+            '当前流深最大值_m':float(h.max()),'当前速度最大值_mps':float(speed.max()),
+            '全程峰值速度_mps':float(vmax.max()),
+            '口岸300米邻域是否达到':bool(np.any(wet&port_mask)),
+            '灾害点300米邻域是否达到':bool(np.any(wet&incident_mask))}
+        records.append(rec);frames.append(h.astype(np.float32).copy());times.append(float(t))
+        return rec
+    write_frame(0.)
+    next_snap=min(cfg.snapshot_s,cfg.duration_s)
+    t=0.;n=0
+    while t < cfg.duration_s-1e-7:
+        if n>120000:raise RuntimeError('数值步数异常；需要检查参数及稳定性')
+        dt=min(_time_step(h,qx,qy,terrain.dx,terrain.dy,cfg.cfl),cfg.duration_s-t,next_snap-t)
+        if dt<0.001 and cfg.duration_s-t>0.005 and next_snap-t>0.005:raise RuntimeError(f'数值时间步长过小{dt:.6f}s')
+        if dt<=1.e-9:
+            next_snap=min(cfg.duration_s,next_snap+cfg.snapshot_s)
+            continue
+        h,qx,qy=_fv_step(h,qx,qy,z,terrain.valid,terrain.dx,terrain.dy,dt)
+        neg=float(np.min(h))
+        if neg < -1.e-6:
+            raise ArithmeticError(f'负水深{neg}, 请降低CFL、增大网格尺度')
+        h[h<0]=0.
+        mu=cfg.mu_late if cfg.fluidization_after_s>0 and t>=cfg.fluidization_after_s else cfg.mu
+        _friction(h,qx,qy,terrain.slope_cos,mu,cfg.xi_mps2,dt)
+        if cfg.erosion_k>0 or cfg.deposit_k_per_s>0:
+            _morphology(h,qx,qy,z,eroded,deposited,terrain.valid,terrain.dx,terrain.dy,dt,
+                cfg.erosion_k,cfg.erosion_speed_threshold_mps,cfg.erodible_depth_m,
+                cfg.deposit_k_per_s,cfg.deposit_speed_threshold_mps)
+        h[~terrain.valid]=0.;qx[~terrain.valid]=0.;qy[~terrain.valid]=0.
+        wet=h>1.e-8
+        speeds=np.divide(np.hypot(qx,qy),h,out=np.zeros_like(h),where=wet)
+        vmax=np.maximum(vmax,speeds)
+        hmax=np.maximum(hmax,h)
+        t+=dt;n+=1
+        if t>=next_snap-1.e-7 or t>=cfg.duration_s-1.e-7:
+            write_frame(t)
+            if progress:progress(min(1.,t/cfg.duration_s))
+            next_snap=min(cfg.duration_s,next_snap+cfg.snapshot_s)
+    edge=np.zeros_like(h,dtype=bool)
+    edge[:3,:]=True;edge[-3:,:]=True;edge[:,:3]=True;edge[:,-3:]=True
+    touches_edge=int(np.sum((hmax>=cfg.wet_threshold_m)&edge))
+    return {'h':h,'qx':qx,'qy':qy,'z':z,'eroded':eroded,'deposited':deposited,
+            'hmax':hmax,'vmax':vmax,'frames':frames,'times':times,'records':records,
+            'source_mask':source_mask,'cfg':cfg,'steps':n,'volume0':volume0,
+            'first_port_frame_s':arrived_port,'first_incident_frame_s':arrived_incident,
+            'edge_wet_cells':touches_edge}

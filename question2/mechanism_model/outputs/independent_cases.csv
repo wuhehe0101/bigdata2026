@@ -1,7 +1,7 @@
 date,mechanism,assumed_gate,P24,A48,D72,score,above_cutoff
-2025-07-08,glacial-lake outburst (user supplied),0.0,0.0,0.0,41.63429166666666,0.5870763089924017,True
-2025-07-08,glacial-lake outburst (user supplied),0.5,0.0,0.0,41.63429166666666,0.5870763089924017,True
-2025-07-08,glacial-lake outburst (user supplied),1.0,0.0,0.0,41.63429166666666,0.5870763089924017,True
-2026-08-26,ice collapse (problem statement),0.0,0.0,0.0,39.39791666666667,0.5404804103401585,True
-2026-08-26,ice collapse (problem statement),0.5,0.0,0.0,39.39791666666667,0.5404804103401585,True
-2026-08-26,ice collapse (problem statement),1.0,0.0,0.0,39.39791666666667,0.5404804103401585,True
+2025-07-08,glacial-lake outburst (user supplied),0.0,0.0,0.0,41.63429166666666,0.5870763089924015,True
+2025-07-08,glacial-lake outburst (user supplied),0.5,0.0,0.0,41.63429166666666,0.5870763089924015,True
+2025-07-08,glacial-lake outburst (user supplied),1.0,0.0,0.0,41.63429166666666,0.5870763089924015,True
+2026-08-26,ice collapse (problem statement),0.0,0.0,0.0,39.39791666666667,0.5404804103401584,True
+2026-08-26,ice collapse (problem statement),0.5,0.0,0.0,39.39791666666667,0.5404804103401584,True
+2026-08-26,ice collapse (problem statement),1.0,0.0,0.0,39.39791666666667,0.5404804103401584,True

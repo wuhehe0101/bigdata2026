@@ -1,0 +1,238 @@
+{
+  "records": 34,
+  "records_by_year": {
+    "2018": 1,
+    "2019": 1,
+    "2021": 32
+  },
+  "unique_event_days": 19,
+  "events_2021": 17,
+  "timestamp_assumption": "保留原始shift(1)：假设Timestamp为小时开始标签；若为小时结束标签需按元数据重新核对。",
+  "qc_note": "仅执行简单数值范围过滤；不插值。气象仪器QC、时区和小时累计语义尚待核验。",
+  "glacier_gate_in_dynamic_model": false,
+  "missing_event_features": [
+    "2021-04-20"
+  ],
+  "split": {
+    "train_end": "2021-07-31",
+    "test_start": "2021-08-16",
+    "embargo": "2021-08-01 through 2021-08-15",
+    "common_complete_case_features": [
+      "D72",
+      "P24",
+      "P360",
+      "P72"
+    ]
+  },
+  "train_n": 81,
+  "train_positive_days": 9,
+  "test_n": 46,
+  "test_positive_days": 3,
+  "baseline": {
+    "name": "baseline_P24_P360_D72",
+    "status": "ok",
+    "features": [
+      "P24",
+      "P360",
+      "D72"
+    ],
+    "train_n": 81,
+    "train_positive_days": 9,
+    "test_n": 46,
+    "test_positive_days": 3,
+    "threshold_from_training": 0.4900877446763919,
+    "test_auc": 0.5348837209302325,
+    "test_ap": 0.08902134954028362,
+    "test_prevalence": 0.06521739130434782,
+    "test_confusion_tn_fp_fn_tp": [
+      21,
+      22,
+      1,
+      2
+    ],
+    "test_event_recall": 0.6666666666666666,
+    "test_background_alarm_rate": 0.5116279069767442,
+    "scaler_mean": [
+      1.5999999999999999,
+      19.982716049382717,
+      31.360766460905342
+    ],
+    "scaler_scale": [
+      3.894281974737504,
+      15.207736742217977,
+      7.138435754559747
+    ],
+    "coefficients_standardized": [
+      0.03914345277060862,
+      0.23908286252390154,
+      0.6581429914612333
+    ],
+    "intercept_standardized": -0.2912827590856126,
+    "note": "模型输出为病例—背景条件评分，不是校准后的真实灾害概率。"
+  },
+  "comparisons": {
+    "P24_D72": {
+      "name": "P24_D72",
+      "status": "ok",
+      "features": [
+        "P24",
+        "D72"
+      ],
+      "train_n": 81,
+      "train_positive_days": 9,
+      "test_n": 46,
+      "test_positive_days": 3,
+      "threshold_from_training": 0.517547206435588,
+      "test_auc": 0.689922480620155,
+      "test_ap": 0.1327639751552795,
+      "test_prevalence": 0.06521739130434782,
+      "test_confusion_tn_fp_fn_tp": [
+        26,
+        17,
+        1,
+        2
+      ],
+      "test_event_recall": 0.6666666666666666,
+      "test_background_alarm_rate": 0.3953488372093023,
+      "scaler_mean": [
+        1.5999999999999999,
+        31.360766460905342
+      ],
+      "scaler_scale": [
+        3.894281974737504,
+        7.138435754559747
+      ],
+      "coefficients_standardized": [
+        0.10117456229252149,
+        0.7165127289696139
+      ],
+      "intercept_standardized": -0.2545110327705823,
+      "note": "模型输出为病例—背景条件评分，不是校准后的真实灾害概率。"
+    },
+    "P72_D72": {
+      "name": "P72_D72",
+      "status": "ok",
+      "features": [
+        "P72",
+        "D72"
+      ],
+      "train_n": 81,
+      "train_positive_days": 9,
+      "test_n": 46,
+      "test_positive_days": 3,
+      "threshold_from_training": 0.5193085227367071,
+      "test_auc": 0.7131782945736435,
+      "test_ap": 0.15462315462315462,
+      "test_prevalence": 0.06521739130434782,
+      "test_confusion_tn_fp_fn_tp": [
+        29,
+        14,
+        1,
+        2
+      ],
+      "test_event_recall": 0.6666666666666666,
+      "test_background_alarm_rate": 0.32558139534883723,
+      "scaler_mean": [
+        4.790123456790123,
+        31.360766460905342
+      ],
+      "scaler_scale": [
+        7.860066360701731,
+        7.138435754559747
+      ],
+      "coefficients_standardized": [
+        0.19982203922124916,
+        0.7153120356149018
+      ],
+      "intercept_standardized": -0.27774184241882377,
+      "note": "模型输出为病例—背景条件评分，不是校准后的真实灾害概率。"
+    },
+    "P360_D72": {
+      "name": "P360_D72",
+      "status": "ok",
+      "features": [
+        "P360",
+        "D72"
+      ],
+      "train_n": 81,
+      "train_positive_days": 9,
+      "test_n": 46,
+      "test_positive_days": 3,
+      "threshold_from_training": 0.49222378148061213,
+      "test_auc": 0.49612403100775193,
+      "test_ap": 0.08259044818184604,
+      "test_prevalence": 0.06521739130434782,
+      "test_confusion_tn_fp_fn_tp": [
+        21,
+        22,
+        2,
+        1
+      ],
+      "test_event_recall": 0.3333333333333333,
+      "test_background_alarm_rate": 0.5116279069767442,
+      "scaler_mean": [
+        19.982716049382717,
+        31.360766460905342
+      ],
+      "scaler_scale": [
+        15.207736742217977,
+        7.138435754559747
+      ],
+      "coefficients_standardized": [
+        0.24979333790765407,
+        0.6560613998077426
+      ],
+      "intercept_standardized": -0.2904446527678523,
+      "note": "模型输出为病例—背景条件评分，不是校准后的真实灾害概率。"
+    }
+  },
+  "case_2026_features": {
+    "P24": 0.0,
+    "P360": 44.2,
+    "D72": 39.39791666666667
+  },
+  "case_2026_score": 0.6930377754639302,
+  "case_2026_alert": true,
+  "case_2026_note": "2026年案例仅用于外部气象条件诊断；未参与训练，也不验证冰崩预测。",
+  "glacier_diagnostics": {
+    "file": "D:\\bigdadta\\glacier.nc",
+    "status": "ok",
+    "interpretation": "全文件统计不能替代已确认冰崩释放区统计，也不能用作2021年事件标签。",
+    "dataset_dimensions": {
+      "y": 138,
+      "x": 145
+    },
+    "variables": {
+      "thickness": {
+        "status": "ok",
+        "valid_cells": 7152,
+        "units_attribute": "m",
+        "min": 6.0,
+        "p10": 20.0,
+        "median": 43.0,
+        "p90": 89.0,
+        "max": 154.0
+      },
+      "v": {
+        "status": "ok",
+        "valid_cells": 7152,
+        "units_attribute": "meter/year",
+        "min": 0.07501044124364853,
+        "p10": 0.4362093448638916,
+        "median": 2.0281386375427246,
+        "p90": 27.16559467315674,
+        "max": 55.828922271728516
+      },
+      "slope": {
+        "status": "ok",
+        "valid_cells": 20010,
+        "units_attribute": "degree",
+        "min": 0.46447762846946716,
+        "p10": 12.819874286651611,
+        "median": 37.20232582092285,
+        "p90": 56.3804500579834,
+        "max": 78.50704193115234
+      }
+    }
+  }
+}
